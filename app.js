@@ -1,11 +1,12 @@
 /*jshint node:true*/
 
-//------------------------------------------------------------------------------
-// node.js starter application for Bluemix
-//------------------------------------------------------------------------------
+var program = require('commander');
 
-// This application uses express as it's web server
-// for more info, see: http://expressjs.com
+
+program
+  .option('-t, --text-to-speech', 'Text-To-Speech')
+  .parse(process.argv);
+
 var express = require('express');
 var bodyParser = require('body-parser');
 
@@ -18,7 +19,7 @@ var app = express();
 
 // serve the files out of ./public as our main files
 // mimetype of post request from twilio are: application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended : true }));
 app.use(express.static(__dirname + '/public'));
 
 // get the app environment from Cloud Foundry
@@ -28,9 +29,16 @@ var appEnv = cfenv.getAppEnv();
 // ROUTES
 app.use('/twilio', require('./routers/twilio.js'));
 
-// start server on the specified port and binding host
-app.listen(appEnv.port, appEnv.bind, function() {
+var textToSpeech = require('./libs/text-to-speech.js');
 
-	// print a message when the server starts listening
-  console.log("server starting on " + appEnv.url);
-});
+if (program.textToSpeech) {
+  textToSpeech.create('Please name 5 animals, then press "#".');
+} else {
+  // start server on the specified port and binding host
+  app.listen(appEnv.port, appEnv.bind, function() {
+
+    // print a message when the server starts listening
+    console.log("server starting on " + appEnv.url);
+  });
+
+}
