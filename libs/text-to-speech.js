@@ -1,7 +1,5 @@
 var watson = require('watson-developer-cloud');
 var AWS = require('aws-sdk');
-var s3Stream = require('s3-upload-stream')(new AWS.S3());
-var fs = require('fs');
 var crypto = require('crypto');
 var config = require('../config.js');
 var configAWS = config.aws;
@@ -9,10 +7,6 @@ var configWatson = config.watson.textToSpeech;
 var cache = {};
 
 function TextToSpeech(){
-  // AWS.config = new AWS.Config();
-  // AWS.config.region = configAWS.region;
-  // AWS.config.accessKeyId = configAWS.accessKeyId;
-  // AWS.config.secretAccessKey = configAWS.secretAccessKey;
   AWS.config.update({
     region : configAWS.region,
     accessKeyId: configAWS.accessKeyId,

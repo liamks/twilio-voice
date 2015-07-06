@@ -5,6 +5,7 @@ var program = require('commander');
 
 program
   .option('-t, --text-to-speech', 'Text-To-Speech')
+  .option('-s, --speech-to-text', 'Speech-To-Text')
   .parse(process.argv);
 
 var express = require('express');
@@ -30,16 +31,17 @@ var appEnv = cfenv.getAppEnv();
 app.use('/twilio', require('./routers/twilio.js'));
 
 var textToSpeech = require('./libs/text-to-speech.js');
+var speechToText = require('./libs/speech-to-text.js');
 
 if (program.textToSpeech) {
   textToSpeech.create('Please name 5 animals, then press "#".')
     .then(function(url){
-      console.log('DONEEEE');
       console.log(url);
     }, function(err){
-      console.log('error');
       console.log(err);
     });
+} else if(program.speechToText) {
+  speechToText.getText('https://api.twilio.com/2010-04-01/Accounts/ACc490a107e47de3969dc55d8e36a6c07e/Recordings/REec477ddbe86af937590ce6c99de6ef5b')
 } else {
   // start server on the specified port and binding host
   app.listen(appEnv.port, appEnv.bind, function() {
