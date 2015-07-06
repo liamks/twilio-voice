@@ -15,6 +15,9 @@ module.exports = {
       password : 'EdwUmGSmT7rH'
     }
   },
+  /*
+  S3 AMI user must have AmazonS3FullAccess policy attached
+  */
   aws : {
     accessKeyId: 'AKIAJJRICSUIFY6CFBYA',
     secretAccessKey : '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',
