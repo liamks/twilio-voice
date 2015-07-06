@@ -14,5 +14,12 @@ module.exports = {
       username: 'f82f8c50-402d-4342-84c7-3f15e6e6ddc3',
       password : 'EdwUmGSmT7rH'
     }
+  },
+  aws : {
+    accessKeyId: 'AKIAJJRICSUIFY6CFBYA',
+    secretAccessKey : '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',
+    region : 'us-east-1',
+    bucket : 'twilio-ad-telephony',
+    url : 'https://s3.amazonaws.com/'
   }
 };

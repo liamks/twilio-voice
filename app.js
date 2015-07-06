@@ -32,7 +32,14 @@ app.use('/twilio', require('./routers/twilio.js'));
 var textToSpeech = require('./libs/text-to-speech.js');
 
 if (program.textToSpeech) {
-  textToSpeech.create('Please name 5 animals, then press "#".');
+  textToSpeech.create('Please name 5 animals, then press "#".')
+    .then(function(url){
+      console.log('DONEEEE');
+      console.log(url);
+    }, function(err){
+      console.log('error');
+      console.log(err);
+    });
 } else {
   // start server on the specified port and binding host
   app.listen(appEnv.port, appEnv.bind, function() {
