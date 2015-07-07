@@ -97,15 +97,19 @@ SpeechToText.toText = function toText(obj){
       }
 
       obj.res = res;
-      console.log(res);
-      console.log(res.results[0])
 
       resolve(obj);
     });
   });
-
 };
 
+SpeechToText.cleanUp = function cleanUp(obj){
+  return new Promise(function(resolve, reject){
+    obj.source.cleanupFn();
+    obj.upsample.cleanupFn();
+    resolve(obj);
+  });
+};
 
 SpeechToText.getText = function getText(wavUrl){
   var obj = {
@@ -116,8 +120,10 @@ SpeechToText.getText = function getText(wavUrl){
     .then(SpeechToText.downloadWav)
     .then(SpeechToText.transcodeTo16k)
     .then(SpeechToText.toText)
+    .then(SpeechToText.cleanUp)
     .then(function(o){
-
+      console.log(o.res);
+      console.log(o.res.results[0])
       console.log(o.source.path);
     }, function(e){
       console.log(e);
