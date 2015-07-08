@@ -87,7 +87,8 @@ TextToSpeech.createWavFile = function createWavFile(obj){
     var s3obj = new AWS.S3({params : {
       Bucket : configAWS.bucket,
       Key : obj.sha1Filename,
-      ACL : 'public-read'
+      ACL : 'public-read',
+      ContentType : 'audio/wav'
     }});
 
     var params = {
