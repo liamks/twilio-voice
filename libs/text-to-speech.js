@@ -45,6 +45,7 @@ TextToSpeech.checkCache = function checkCache(obj){
     var url = cache[obj.text];
 
     if (url) {
+      obj.cache = 'memory';
       obj.url = url;
     }
 
@@ -70,6 +71,7 @@ TextToSpeech.checkS3 = function checkS3(obj){
         // file exists
         obj.url = TextToSpeech.url(obj.sha1Filename);
         cache[obj.text] = TextToSpeech.url(obj.sha1Filename);
+        obj.cache = 's3';
       } 
 
       resolve(obj);

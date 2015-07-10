@@ -9,6 +9,7 @@
     "aws-sdk": "^2.1.36",
     "body-parser": "1.13.1",
     "cfenv": "1.0.x",
+    "change-case": "^2.3.0",
     "commander": "^2.8.1",
     "express": "4.12.x",
     "request": "^2.58.0",
@@ -20,5 +21,10 @@
   "engines": {
     "node": "0.12.5"
   },
-  "repository": {}
+  "repository": {},
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jscs": "^1.6.0",
+    "mockery": "^1.4.0"
+  }
 }
