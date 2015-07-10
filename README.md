@@ -1,3 +1,8 @@
+# Todo:
+
+add redis:
+https://www.ng.bluemix.net/docs/#services/Redis/index.html#Redis
+
 # Node.js Starter Application
 
 Bluemix provides a Node.js starter application as a template so that you can

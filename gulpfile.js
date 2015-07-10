@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var jscs = require('gulp-jscs');
+var mocha = require('gulp-mocha');
 
 
 function jscsfn(){
@@ -20,7 +21,14 @@ gulp.task('jscs-tests', function(){
 
 gulp.task('jscs', ['jscs-libs', 'jscs-routers', 'jscs-tests']);
 
-gulp.task('default', ['jscs'], function(){
+gulp.task('mocha', function(){
+  return gulp.src('test/**/*.js', {read: false})
+    .pipe(mocha({
+      reporter: 'nyan'
+    }));
+});
+
+gulp.task('default', ['jscs', 'mocha'], function(){
 
   
 });
