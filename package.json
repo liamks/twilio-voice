@@ -12,6 +12,7 @@
     "change-case": "^2.3.0",
     "commander": "^2.8.1",
     "express": "4.12.x",
+    "redis": "^0.12.1",
     "request": "^2.58.0",
     "sox": "^0.1.0",
     "tmp": "0.0.26",
