@@ -1,5 +1,6 @@
 var redis = require('redis').createClient();
 var expect = require('chai').expect;
+var mockQuestions = require('../mock-data/questions')['session_task_instances'];
 
 var talk2MePath = '../../libs/talk-2-me.js';
 
@@ -125,6 +126,43 @@ describe('Talk2Me', function() {
 
     it('should handle JSON parse error', function() {
 
+    });
+  });
+
+  describe('transformInstruction', function(){
+    var talk2Me;
+
+    beforeEach(function(){
+      talk2Me = require(talk2MePath);
+    });
+
+    it('should handle question of type 1', function(){
+      var question = mockQuestions[0];
+    });
+
+    it('should handle question of type 8', function(){
+      var question = mockQuestions[5];
+      expect(question['task_id']).to.equal(8);
+    });
+
+    it('should handle question of type 10', function(){
+      var question = mockQuestions[10];
+      expect(question['task_id']).to.equal(10);
+    });
+
+    it('should handle question of type 11', function(){
+      var question = mockQuestions[11];
+      expect(question['task_id']).to.equal(11);
+    });
+
+    it('should handle question of type 12', function(){
+      var question = mockQuestions[16];
+      expect(question['task_id']).to.equal(16);
+    });
+
+    it('should handle question of type 13', function(){
+      var question = mockQuestions[17];
+      expect(question['task_id']).to.equal(17);
     });
   });
 });

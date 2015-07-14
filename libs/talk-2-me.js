@@ -51,7 +51,7 @@ Talk2Me.sortQuestions = function sortQuestions(user){
   });
 };
 
-Talk2Me.transform = function transform(taskId, instructions, values){
+Talk2Me.transformInstruction = function transformInstruction(taskId, instructions, values){
   var transformations = {
     1 : function(i, v){
       return i.replace('#WORD#', v[0]['value_text']);
