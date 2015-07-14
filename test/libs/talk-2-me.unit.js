@@ -58,9 +58,9 @@ describe('Talk2Me', function() {
       });
     };
 
-    function deleteUser(callSid){
-      return new Promise(function(resolve, reject){
-        redis.del(callSid, function(err){
+    function deleteUser(callSid) {
+      return new Promise(function(resolve, reject) {
+        redis.del(callSid, function(err) {
           if (err) {
             return reject(err);
           }
@@ -70,8 +70,8 @@ describe('Talk2Me', function() {
       });
     }
 
-    afterEach(function(done){
-      deleteUser(callSid).then(function(){
+    afterEach(function(done) {
+      deleteUser(callSid).then(function() {
         done();
       });
     });
@@ -129,40 +129,45 @@ describe('Talk2Me', function() {
     });
   });
 
-  describe('transformInstruction', function(){
+  describe('transformInstruction', function() {
     var talk2Me;
 
-    beforeEach(function(){
+    beforeEach(function() {
       talk2Me = require(talk2MePath);
     });
 
-    it('should handle question of type 1', function(){
+    it('should handle question of type 1', function() {
       var question = mockQuestions[0];
+      var instruction = talk2Me.transformInstruction(
+                          question['task_id'],
+                          question['task_instruction'],
+                          question.values);
+      expect(instruction).to.equal('After the beep, please say the definition for questing.');
     });
 
-    it('should handle question of type 8', function(){
-      var question = mockQuestions[5];
+    it('should handle question of type 8', function() {
+      var question = mockQuestions[6];
       expect(question['task_id']).to.equal(8);
     });
 
-    it('should handle question of type 10', function(){
-      var question = mockQuestions[10];
+    it('should handle question of type 10', function() {
+      var question = mockQuestions[11];
       expect(question['task_id']).to.equal(10);
     });
 
-    it('should handle question of type 11', function(){
-      var question = mockQuestions[11];
+    it('should handle question of type 11', function() {
+      var question = mockQuestions[12];
       expect(question['task_id']).to.equal(11);
     });
 
-    it('should handle question of type 12', function(){
-      var question = mockQuestions[16];
-      expect(question['task_id']).to.equal(16);
+    it('should handle question of type 12', function() {
+      var question = mockQuestions[17];
+      expect(question['task_id']).to.equal(12);
     });
 
-    it('should handle question of type 13', function(){
-      var question = mockQuestions[17];
-      expect(question['task_id']).to.equal(17);
+    it('should handle question of type 13', function() {
+      var question = mockQuestions[18];
+      expect(question['task_id']).to.equal(13);
     });
   });
 });

@@ -3,6 +3,14 @@
 add redis:
 https://www.ng.bluemix.net/docs/#services/Redis/index.html#Redis
 
+# Development
+
+## Install
+
+1. Node
+2. Redis
+3. sox (for audio downsampling)
+
 # Node.js Starter Application
 
 Bluemix provides a Node.js starter application as a template so that you can
