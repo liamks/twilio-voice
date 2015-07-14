@@ -39,8 +39,55 @@ Talk2Me.getQuestionsForStart = function getQuestionsForStart(user) {
   });
 };
 
-Talk2Me.transformQuestionsForStart = function transformQuestionsForStart(user) {
+Talk2Me.sortQuestions = function sortQuestions(user){
+  return new Promise(function(resolve, reject){
+    resolve(user.questions.sort(function(q1, q2){
+      if(q1['session_task_instance_id'] > q2['session_task_instance_id']){
+        return 1;
+      }else {
+        return -1;
+      }
+    }));
+  });
+};
 
+Talk2Me.transform = function transform(taskId, instructions, values){
+  var transformations = {
+    1 : function(i, v){
+      return i.replace('#WORD#', v[0]['value_text']);
+    },
+    8 : function(i, v){
+      return i.replace('#SENTENCE#', v[0]['value_text']);
+    },
+    10 : function(i, v){
+      return i.replace('#STORY#', v[0]['value_text']);
+    }, 
+    11 : function(i, v){
+      var option1 = 'Option 1: ' + v[1]['value_text'] + '.';
+      var option2 = 'Option 2: ' + v[2]['value_text'] + '.';
+      var options = ': ' + option1 + ' ' + option2;
+
+      return i.replace('#SENTENCE#', v[0]['value_text'])
+              .replace('#OPTIONS#', options);
+    },
+    12 : function(i, v){
+      // random words
+      // NEED TO CHANGE hard coded categories
+      return i.replace('#ITEM#', 'animals');
+    },
+    13 : function(i, v){
+      return v[0]['value_text'];
+    }
+  }
+};
+
+Talk2Me.transformInstructions = function transformInstructions(user) {
+  return new Promise(function(resolve, reject){
+    questions = user.questions.map(function(question){
+      var instruction = question['task_instruction'];
+
+    });
+  });
 };
 
 Talk2Me.cacheUsersSession = function cacheUsersSession(user) {

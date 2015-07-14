@@ -1,0 +1,379 @@
+{
+  "status": "success",
+  "session_id": 73,
+  "session_task_instances": [
+    {
+      "total_time": 0,
+      "task_instruction": "After the beep, please say the definition for #WORD#.",
+      "response_id": 1964,
+      "task_name": "Vocabulary",
+      "task_id": 1,
+      "values": [
+        {
+          "value_text": "questing",
+          "value_type": "display",
+          "value_id": 2653
+        }
+      ],
+      "order": 10,
+      "session_task_instance_id": 1964,
+      "session_task_id": 585
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "After the beep, please say the definition for #WORD#.",
+      "response_id": 1965,
+      "task_name": "Vocabulary",
+      "task_id": 1,
+      "values": [
+        {
+          "value_text": "loincloth",
+          "value_type": "display",
+          "value_id": 2654
+        }
+      ],
+      "order": 10,
+      "session_task_instance_id": 1965,
+      "session_task_id": 585
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "After the beep, please say the definition for #WORD#.",
+      "response_id": 1966,
+      "task_name": "Vocabulary",
+      "task_id": 1,
+      "values": [
+        {
+          "value_text": "emptiness",
+          "value_type": "display",
+          "value_id": 2655
+        }
+      ],
+      "order": 10,
+      "session_task_instance_id": 1966,
+      "session_task_id": 585
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "After the beep, please say the definition for #WORD#.",
+      "response_id": 1967,
+      "task_name": "Vocabulary",
+      "task_id": 1,
+      "values": [
+        {
+          "value_text": "idiotic",
+          "value_type": "display",
+          "value_id": 2656
+        }
+      ],
+      "order": 10,
+      "session_task_instance_id": 1967,
+      "session_task_id": 585
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "After the beep, please say the definition for #WORD#.",
+      "response_id": 1968,
+      "task_name": "Vocabulary",
+      "task_id": 1,
+      "values": [
+        {
+          "value_text": "obscure",
+          "value_type": "display",
+          "value_id": 2657
+        }
+      ],
+      "order": 10,
+      "session_task_instance_id": 1968,
+      "session_task_id": 585
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "After the beep, please say the definition for #WORD#.",
+      "response_id": 1969,
+      "task_name": "Vocabulary",
+      "task_id": 1,
+      "values": [
+        {
+          "value_text": "burglar",
+          "value_type": "display",
+          "value_id": 2658
+        }
+      ],
+      "order": 10,
+      "session_task_instance_id": 1969,
+      "session_task_id": 585
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence. Please say the words that are missing after the beep. Starting sentence. #SENTENCE#",
+      "response_id": 1970,
+      "task_name": "Sentence Completion",
+      "task_id": 8,
+      "values": [
+        {
+          "value_text": "They turned at the bottom of Kate's steps and moved off in the direction of the [BLANK].",
+          "value_type": "display",
+          "value_id": 2659
+        }
+      ],
+      "order": 80,
+      "session_task_instance_id": 1970,
+      "session_task_id": 586
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence. Please say the words that are missing after the beep. Starting sentence. #SENTENCE#",
+      "response_id": 1971,
+      "task_name": "Sentence Completion",
+      "task_id": 8,
+      "values": [
+        {
+          "value_text": "The enormous plates which had held Mr. Jack's four fried eggs and five strips of bacon were [BLANK] stacked in the sink.",
+          "value_type": "display",
+          "value_id": 2660
+        }
+      ],
+      "order": 80,
+      "session_task_instance_id": 1971,
+      "session_task_id": 586
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence. Please say the words that are missing after the beep. Starting sentence. #SENTENCE#",
+      "response_id": 1972,
+      "task_name": "Sentence Completion",
+      "task_id": 8,
+      "values": [
+        {
+          "value_text": "People are giving their doctors a hard [BLANK].",
+          "value_type": "display",
+          "value_id": 2661
+        }
+      ],
+      "order": 80,
+      "session_task_instance_id": 1972,
+      "session_task_id": 586
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence. Please say the words that are missing after the beep. Starting sentence. #SENTENCE#",
+      "response_id": 1973,
+      "task_name": "Sentence Completion",
+      "task_id": 8,
+      "values": [
+        {
+          "value_text": "\"Without any officious and improper interference on the subject, the price of labor or the wages of mechanics will be regulated by the demand for the manufactured [BLANK] and the value of that which is paid for it;",
+          "value_type": "display",
+          "value_id": 2662
+        }
+      ],
+      "order": 80,
+      "session_task_instance_id": 1973,
+      "session_task_id": 586
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence. Please say the words that are missing after the beep. Starting sentence. #SENTENCE#",
+      "response_id": 1974,
+      "task_name": "Sentence Completion",
+      "task_id": 8,
+      "values": [
+        {
+          "value_text": "An [BLANK] of a more definite class bias is noted in proceedings of the Commission on the Financing of Higher Education sponsored by the Association of American Universities and supported by the Rockefeller Foundation and the Carnegie Corporation.",
+          "value_type": "display",
+          "value_id": 2663
+        }
+      ],
+      "order": 80,
+      "session_task_instance_id": 1974,
+      "session_task_id": 586
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a story. After the beep please retell the story in your own words. Starting story. #STORY#",
+      "response_id": 1975,
+      "task_name": "Story Recall",
+      "task_id": 10,
+      "values": [
+        {
+          "value_text": "The Rainbow\\\r\\\n\\\r\\\nWhen the sunlight strikes raindrops in the air, they act like a prism and form a rainbow.  A rainbow is the division of white light into many beautiful colors.  These take the shape of a large, round arch, with its path high above and its two ends apparently beyond the horizon.\\\r\\\n\\\r\\\nThere is, according to legend, a boiling pot of gold at one end.  People look but no one ever finds it.  When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow. ",
+          "value_type": "display",
+          "value_id": 2664
+        }
+      ],
+      "order": 100,
+      "session_task_instance_id": 1975,
+      "session_task_id": 587
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence, followed by a question with two possible answers. After you hear those answers, please select the answer number by pressing one or two. Starting sentence. #SENTENCE#. Here are your options #OPTIONS#",
+      "response_id": 1976,
+      "task_name": "Winograd Schemas",
+      "task_id": 11,
+      "values": [
+        {
+          "value_text": "Emma's mother had died long ago, and her place had been taken by an excellent woman as governess. Whose place had been taken?",
+          "value_type": "display",
+          "value_id": 2665
+        },
+        {
+          "value_text": "Emma's mother",
+          "value_type": "input",
+          "value_id": 2666
+        },
+        {
+          "value_text": "Emma",
+          "value_type": "input",
+          "value_id": 2667
+        }
+      ],
+      "order": 25,
+      "session_task_instance_id": 1976,
+      "session_task_id": 588
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence, followed by a question with two possible answers. After you hear those answers, please select the answer number by pressing one or two. Starting sentence. #SENTENCE#. Here are your options #OPTIONS#",
+      "response_id": 1977,
+      "task_name": "Winograd Schemas",
+      "task_id": 11,
+      "values": [
+        {
+          "value_text": "The sculpture rolled off the shelf because it wasn't anchored. What wasn't anchored?",
+          "value_type": "display",
+          "value_id": 2668
+        },
+        {
+          "value_text": "The shelf",
+          "value_type": "input",
+          "value_id": 2669
+        },
+        {
+          "value_text": "The sculpture",
+          "value_type": "input",
+          "value_id": 2670
+        }
+      ],
+      "order": 25,
+      "session_task_instance_id": 1977,
+      "session_task_id": 588
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence, followed by a question with two possible answers. After you hear those answers, please select the answer number by pressing one or two. Starting sentence. #SENTENCE#. Here are your options #OPTIONS#",
+      "response_id": 1978,
+      "task_name": "Winograd Schemas",
+      "task_id": 11,
+      "values": [
+        {
+          "value_text": "Archaeologists have concluded that humans lived in Laputa 20,000 years ago. They hunted for evidence on the river banks. Who hunted for evidence?",
+          "value_type": "display",
+          "value_id": 2671
+        },
+        {
+          "value_text": "The prehistoric humans",
+          "value_type": "input",
+          "value_id": 2672
+        },
+        {
+          "value_text": "The archaeologists",
+          "value_type": "input",
+          "value_id": 2673
+        }
+      ],
+      "order": 25,
+      "session_task_instance_id": 1978,
+      "session_task_id": 588
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence, followed by a question with two possible answers. After you hear those answers, please select the answer number by pressing one or two. Starting sentence. #SENTENCE#. Here are your options #OPTIONS#",
+      "response_id": 1979,
+      "task_name": "Winograd Schemas",
+      "task_id": 11,
+      "values": [
+        {
+          "value_text": "Sam broke both his ankles and he's walking with crutches. But a month or so from now they should be unnecessary. What should be unnecessary?",
+          "value_type": "display",
+          "value_id": 2674
+        },
+        {
+          "value_text": "The ankles",
+          "value_type": "input",
+          "value_id": 2675
+        },
+        {
+          "value_text": "The crutches",
+          "value_type": "input",
+          "value_id": 2676
+        }
+      ],
+      "order": 25,
+      "session_task_instance_id": 1979,
+      "session_task_id": 588
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "You will hear a sentence, followed by a question with two possible answers. After you hear those answers, please select the answer number by pressing one or two. Starting sentence. #SENTENCE#. Here are your options #OPTIONS#",
+      "response_id": 1980,
+      "task_name": "Winograd Schemas",
+      "task_id": 11,
+      "values": [
+        {
+          "value_text": "John hired himself out to Bill to take care of him. Who is taking care of whom?",
+          "value_type": "display",
+          "value_id": 2677
+        },
+        {
+          "value_text": "John is taking care of Bill",
+          "value_type": "input",
+          "value_id": 2678
+        },
+        {
+          "value_text": "Bill is taking care of John",
+          "value_type": "input",
+          "value_id": 2679
+        }
+      ],
+      "order": 25,
+      "session_task_instance_id": 1980,
+      "session_task_id": 588
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "After the beep, please say as many different items of type #ITEM# that come to mind randomly.",
+      "response_id": 1981,
+      "task_name": "Random Item Generation",
+      "task_id": 12,
+      "values": [
+        {
+          "value_text": "Click \"Start\", and write down a random non-repeating list of <strong>ENGLISH WORDS STARTING WITH \"t\"</strong>, in the box below. Separate them with commas. Keep writing for 1 minute (the timer below will display the remaining time).[timer_60sec]",
+          "value_type": "display",
+          "value_id": 2680
+        }
+      ],
+      "order": 55,
+      "session_task_instance_id": 1981,
+      "session_task_id": 589
+    },
+    {
+      "total_time": 0,
+      "task_instruction": "A person’s mood can have a slight effect on how they speak. Could you please tell us a little bit about how you’re feeling today, by ranking your mood from 0 (very sad) to 9 (completely ecstatic)? Please press the number that applies.",
+      "response_id": 1982,
+      "task_name": "General Disposition",
+      "task_id": 13,
+      "values": [
+        {
+          "value_text": "How are you feeling today on a scale from 1 (very sad) to 10 (very happy)?",
+          "value_type": "display",
+          "value_id": 2681
+        }
+      ],
+      "order": 1,
+      "session_task_instance_id": 1982,
+      "session_task_id": 590
+    }
+  ]
+}
