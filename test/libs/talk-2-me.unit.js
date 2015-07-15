@@ -3,6 +3,7 @@ var expect = require('chai').expect;
 var mockery = require('mockery');
 
 var mockResponse = require('../mock-data/questions');
+
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 var mockQuestions = mockResponse.session_task_instances;
 
@@ -18,6 +19,18 @@ function getSessionFromRedis(session) {
       usersSession.questions = JSON.parse(usersSession.questions);
       usersSession.questionIndex = parseInt(usersSession.questionIndex, 10);
       resolve(usersSession);
+    });
+  });
+}
+
+function deleteUser(callSid) {
+  return new Promise(function(resolve, reject) {
+    redis.del(callSid, function(err) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(callSid);
     });
   });
 }
@@ -48,15 +61,14 @@ describe('Talk2Me', function() {
         userBirthday: 11
       };
 
-      requestMock = function(options, cb){
+      requestMock = function(options, cb) {
         expect(options.headers).to.deep.equal({'X-Requested-With': 'XMLHttpRequest'});
-        expect(options.body.user_passcode).to.equal(user.userPasscode);
-        cb(null, null, {
+        expect(options.form.user_passcode).to.equal(user.userPasscode);
+        cb(null, null, JSON.stringify({
           session_task_instances: [{}],
           session_id: 1
-        });
+        }));
       };
-
 
       mockery.registerMock('request', requestMock);
       talk2Me = require(talk2MePath);
@@ -72,9 +84,10 @@ describe('Talk2Me', function() {
     });
   });
 
-  describe('getFirstQuestion', function(){
+  describe('getFirstQuestion', function() {
     var requestMock;
     var talk2Me;
+    var callSid = 444;
 
     beforeEach(function() {
       mockery.enable({
@@ -88,32 +101,45 @@ describe('Talk2Me', function() {
       mockery.disable();
     });
 
-    it.only('should fetch questions, sort them, transform them and cache them and return the first question', function(){
+    afterEach(function(done) {
+      deleteUser(callSid).then(function() {
+        done();
+      });
+    });
+
+    it('should fetch questions, sort them, transform them and cache them and return the first question', function() {
       var user = {
         userPasscode: 38,
         userBirthyear: 1981,
         userBirthmonth: 8,
         userBirthday: 11,
-        CallSid: 444
+        CallSid: callSid
       };
 
-      requestMock = function(options, cb){
-        cb(null, null, mockResponse);
+      requestMock = function(options, cb) {
+        cb(null, null, JSON.stringify(mockResponse));
       };
 
       mockery.registerMock('request', requestMock);
       talk2Me = require(talk2MePath);
 
-      return talk2Me.getFirstQuestion(user).then(function(firstQuestion){
-        expect(firstQuestion).to.deep.equal({ 
+      return talk2Me.getFirstQuestion(user).then(function(firstQuestion) {
+        expect(firstQuestion).to.deep.equal({
           responseId: 1964,
           taskId: 1,
           order: 10,
           sessionTaskInstanceId: 1964,
           sessionTaskId: 585,
           instruction: 'After the beep, please say the definition for questing.',
-          time: 0 
+          time: 0
         });
+
+        return {CallSid: callSid}
+      })
+      .then(getSessionFromRedis)
+      .then(function(session) {
+        expect(session.questions).to.have.length(19);
+        expect(session.questionIndex).to.equal(0);
       });
     });
   });
@@ -140,7 +166,7 @@ describe('Talk2Me', function() {
   });
 
   describe('getNextQuestionForSession', function() {
-    var questions = [{id: 1}, {id: 2}];
+    var questions = [{id: 1}, {id: 2}, {id: 3}];
     var callSid = 'a2b7';
 
     function cacheUser(callSid, questions, index) {
@@ -158,25 +184,13 @@ describe('Talk2Me', function() {
       });
     };
 
-    function deleteUser(callSid) {
-      return new Promise(function(resolve, reject) {
-        redis.del(callSid, function(err) {
-          if (err) {
-            return reject(err);
-          }
-
-          resolve(callSid);
-        });
-      });
-    }
-
     afterEach(function(done) {
       deleteUser(callSid).then(function() {
         done();
       });
     });
 
-    it('return the 1st question', function() {
+    it('return the 2nd question', function() {
       var talk2Me = require(talk2MePath);
       var session = {
         CallSid: callSid,
@@ -188,11 +202,11 @@ describe('Talk2Me', function() {
           return talk2Me.getNextQuestionForSession(callSid);
         })
         .then(function(question) {
-          expect(question).to.deep.equal(questions[0]);
+          expect(question).to.deep.equal(questions[1]);
         });
     });
 
-    it('return the 2nd question', function() {
+    it('return the 3nd question', function() {
       var talk2Me = require(talk2MePath);
       var session = {
         CallSid: callSid,
@@ -204,7 +218,7 @@ describe('Talk2Me', function() {
           return talk2Me.getNextQuestionForSession(callSid);
         })
         .then(function(question) {
-          expect(question).to.deep.equal(questions[1]);
+          expect(question).to.deep.equal(questions[2]);
         });
     });
 

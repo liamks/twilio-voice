@@ -36,9 +36,9 @@ gulp.task('mocha', function(){
 });
 
 gulp.task('watch', function(){
-  gulp.watch(paths.libs, ['jscs-libs', 'mocha']);
-  gulp.watch(paths.routers, ['jscs-routers', 'mocha']);
-  gulp.watch(paths.tests, ['jscs-tests', 'mocha']);
+  gulp.watch(paths.libs, ['mocha']);
+  gulp.watch(paths.routers, ['mocha']);
+  gulp.watch(paths.tests, ['mocha']);
 });
 
 gulp.task('default', ['watch', 'jscs', 'mocha'], function(){

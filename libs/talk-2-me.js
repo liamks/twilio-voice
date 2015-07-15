@@ -43,13 +43,14 @@ Talk2Me.fetchQuestions = function fetchQuestions(user) {
     request({
       method: 'POST',
       url: url,
-      body: user,
-      json: true,
+      form: user,
       headers: {'X-Requested-With': 'XMLHttpRequest'}
     }, function(error, reponse, body) {
       if (error) {
         return reject(error);
       }
+
+      body = JSON.parse(body);
 
       // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
       user.questions = body.session_task_instances;
@@ -193,15 +194,15 @@ Talk2Me.getNextQuestionForSession = function getNextQuestionForSession(callSid) 
   return new Promise(function(resolve, reject) {
     var multi = Talk2Me.redis.multi();
 
-    multi.HGETALL(callSid);
     multi.HINCRBY(callSid, 'questionIndex', 1);
+    multi.HGETALL(callSid);
 
     multi.exec(function(err, results) {
       if (err) {
         return reject(err);
       }
 
-      var usersSession = results[0];
+      var usersSession = results[1];
 
       try {
         usersSession.questions = JSON.parse(usersSession.questions);

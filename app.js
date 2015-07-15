@@ -46,11 +46,12 @@ if (program.textToSpeech) {
   speechToText.getText('https://api.twilio.com/2010-04-01/Accounts/ACc490a107e47de3969dc55d8e36a6c07e/Recordings/REec477ddbe86af937590ce6c99de6ef5b');
 } else if(program.talk2Me) {
   
-  talk2Me.getQuestions({
-    userPasscode : '38',
-    userBirthyear : '1981',
-    userBirthmonth : '8',
-    userBirthday : '11'
+  talk2Me.getFirstQuestion({
+    userPasscode : 38,
+    userBirthyear : 1981,
+    userBirthmonth : 8,
+    userBirthday : 11,
+    CallSid: 444
   }).then(function(b){
     console.log(b);
   }, function(e){
