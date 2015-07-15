@@ -54,29 +54,51 @@ Talk2Me.sortQuestions = function sortQuestions(user) {
 Talk2Me.transformInstruction = function transformInstruction(taskId, instructions, values) {
   var transformer = {
     1: function(i, v) {
-      return i.replace('#WORD#', v[0]['value_text']);
+      return {
+        text: i.replace('#WORD#', v[0]['value_text']),
+        time: 0
+      };
     },
     8: function(i, v) {
-      return i.replace('#SENTENCE#', v[0]['value_text']);
+      return {
+        text: i.replace('#SENTENCE#', v[0]['value_text'])
+               .replace('[BLANK]', 'BLANK'),
+        time: 0
+      };
     },
     10: function(i, v) {
-      return i.replace('#STORY#', v[0]['value_text']);
+      return {
+        text: i.replace('#STORY#', v[0]['value_text'])
+               .replace(/[\\\r\n]+/g, ' '),
+        time: 0
+      };
     }, 
     11: function(i, v) {
       var option1 = 'Option 1: ' + v[1]['value_text'] + '.';
       var option2 = 'Option 2: ' + v[2]['value_text'] + '.';
       var options = ': ' + option1 + ' ' + option2;
 
-      return i.replace('#SENTENCE#', v[0]['value_text'])
-              .replace('#OPTIONS#', options);
+      return {
+        text: i.replace('#SENTENCE#', v[0]['value_text'])
+               .replace('#OPTIONS#', options),
+        time: 0
+      };
     },
     12: function(i, v) {
       // random words
-      // NEED TO CHANGE hard coded categories
-      return i.replace('#ITEM#', 'animals');
+      var category = v[0]['value_text'].match(/<strong>(.+)<\/strong>/)[1];
+      var time = parseInt(v[0]['value_text'].match(/_(\d+)sec/)[1], 10);
+
+      return {
+        text: i.replace('#ITEM#', category),
+        time: time,
+      };
     },
     13: function(i, v) {
-      return v[0]['value_text'];
+      return {
+        text: v[0]['value_text'],
+        time: 0,
+      }
     }
   }[taskId];
 
@@ -87,8 +109,12 @@ Talk2Me.transformInstructions = function transformInstructions(user) {
   return new Promise(function(resolve, reject) {
     questions = user.questions.map(function(question) {
       var instruction = question['task_instruction'];
-
+      question.instruction = instruction.text;
+      question.time = instruction.time;
+      return question;
     });
+
+    resolve(questions);
   });
 };
 

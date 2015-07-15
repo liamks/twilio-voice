@@ -1,6 +1,8 @@
 var redis = require('redis').createClient();
 var expect = require('chai').expect;
-var mockQuestions = require('../mock-data/questions')['session_task_instances'];
+
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+var mockQuestions = require('../mock-data/questions').session_task_instances;
 
 var talk2MePath = '../../libs/talk-2-me.js';
 
@@ -65,7 +67,7 @@ describe('Talk2Me', function() {
             return reject(err);
           }
 
-          resolve(callSid);          
+          resolve(callSid);
         });
       });
     }
@@ -139,35 +141,56 @@ describe('Talk2Me', function() {
     it('should handle question of type 1', function() {
       var question = mockQuestions[0];
       var instruction = talk2Me.transformInstruction(
-                          question['task_id'],
-                          question['task_instruction'],
+                          question.task_id,
+                          question.task_instruction,
                           question.values);
-      expect(instruction).to.equal('After the beep, please say the definition for questing.');
+      expect(instruction.text).to.equal('After the beep, please say the definition for questing.');
     });
 
     it('should handle question of type 8', function() {
       var question = mockQuestions[6];
-      expect(question['task_id']).to.equal(8);
+      var instruction = talk2Me.transformInstruction(
+                          question.task_id,
+                          question.task_instruction,
+                          question.values);
+      expect(instruction.text).to.equal('You will hear a sentence. Please say the words that are missing after the beep. Starting sentence. They turned at the bottom of Kate\'s steps and moved off in the direction of the BLANK.');
     });
 
     it('should handle question of type 10', function() {
       var question = mockQuestions[11];
-      expect(question['task_id']).to.equal(10);
+      var instruction = talk2Me.transformInstruction(
+                          question.task_id,
+                          question.task_instruction,
+                          question.values);
+      expect(instruction.text).to.equal('You will hear a story. After the beep please retell the story in your own words. Starting story. The Rainbow When the sunlight strikes raindrops in the air, they act like a prism and form a rainbow.  A rainbow is the division of white light into many beautiful colors.  These take the shape of a large, round arch, with its path high above and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end.  People look but no one ever finds it.  When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow. ');
     });
 
     it('should handle question of type 11', function() {
       var question = mockQuestions[12];
-      expect(question['task_id']).to.equal(11);
+      var instruction = talk2Me.transformInstruction(
+                          question.task_id,
+                          question.task_instruction,
+                          question.values);
+      expect(instruction.text).to.equal('You will hear a sentence, followed by a question with two possible answers. After you hear those answers, please select the answer number by pressing one or two. Starting sentence. Emma\'s mother had died long ago, and her place had been taken by an excellent woman as governess. Whose place had been taken?. Here are your options : Option 1: Emma\'s mother. Option 2: Emma.');
     });
 
-    it('should handle question of type 12', function() {
+    it('should handle question of type 12 (random words)', function() {
       var question = mockQuestions[17];
-      expect(question['task_id']).to.equal(12);
+      var instruction = talk2Me.transformInstruction(
+                          question.task_id,
+                          question.task_instruction,
+                          question.values);
+      expect(instruction.text).to.equal('After the beep, please say as many different items of type ENGLISH WORDS STARTING WITH "t" that come to mind randomly.');
+      expect(instruction.time).to.equal(60);
     });
 
     it('should handle question of type 13', function() {
       var question = mockQuestions[18];
-      expect(question['task_id']).to.equal(13);
+      var instruction = talk2Me.transformInstruction(
+                          question.task_id,
+                          question.task_instruction,
+                          question.values);
+      expect(instruction.text).to.equal('How are you feeling today on a scale from 1 (very sad) to 10 (very happy)?');
     });
   });
 });
