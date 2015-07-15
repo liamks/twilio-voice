@@ -54,6 +54,7 @@ Talk2Me.fetchQuestions = function fetchQuestions(user) {
       // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
       user.questions = body.session_task_instances;
       user.sessionId = body.session_id;
+      user.CallSid = user.call_sid;
       resolve(user);
     });
   });
@@ -61,14 +62,16 @@ Talk2Me.fetchQuestions = function fetchQuestions(user) {
 
 Talk2Me.sortQuestions = function sortQuestions(user) {
   return new Promise(function(resolve, reject) {
-    resolve(user.questions.sort(function(q1, q2) {
+    user.questions = user.questions.sort(function(q1, q2) {
       // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
       if (q1.session_task_instance_id > q2.session_task_instance_id) {
         return 1;
       }else {
         return -1;
       }
-    }));
+    });
+
+    resolve(user);
   });
 };
 

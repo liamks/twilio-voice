@@ -1,8 +1,10 @@
 var redis = require('redis').createClient();
 var expect = require('chai').expect;
+var mockery = require('mockery');
 
+var mockResponse = require('../mock-data/questions');
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-var mockQuestions = require('../mock-data/questions').session_task_instances;
+var mockQuestions = mockResponse.session_task_instances;
 
 var talk2MePath = '../../libs/talk-2-me.js';
 
@@ -21,6 +23,101 @@ function getSessionFromRedis(session) {
 }
 
 describe('Talk2Me', function() {
+  describe('fetchQuestions', function() {
+    var requestMock = function r() {};
+    var talk2Me;
+
+    beforeEach(function() {
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false,
+        useCleanCache: true
+      });
+
+    });
+
+    after(function() {
+      mockery.disable();
+    });
+
+    it('should resolve with correct params', function() {
+      var user = {
+        userPasscode: 38,
+        userBirthyear: 1981,
+        userBirthmonth: 8,
+        userBirthday: 11
+      };
+
+      requestMock = function(options, cb){
+        expect(options.headers).to.deep.equal({'X-Requested-With': 'XMLHttpRequest'});
+        expect(options.body.user_passcode).to.equal(user.userPasscode);
+        cb(null, null, {
+          session_task_instances: [{}],
+          session_id: 1
+        });
+      };
+
+
+      mockery.registerMock('request', requestMock);
+      talk2Me = require(talk2MePath);
+
+      return talk2Me.fetchQuestions(user).then(function(u) {
+        expect(u.questions).to.deep.equal([{}]);
+        expect(u.sessionId).to.equal(1);
+      });
+    });
+
+    it.skip('should reject the promise because authPass has not been supplied', function() {
+
+    });
+  });
+
+  describe('getFirstQuestion', function(){
+    var requestMock;
+    var talk2Me;
+
+    beforeEach(function() {
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false,
+        useCleanCache: true
+      });
+    });
+
+    after(function() {
+      mockery.disable();
+    });
+
+    it.only('should fetch questions, sort them, transform them and cache them and return the first question', function(){
+      var user = {
+        userPasscode: 38,
+        userBirthyear: 1981,
+        userBirthmonth: 8,
+        userBirthday: 11,
+        CallSid: 444
+      };
+
+      requestMock = function(options, cb){
+        cb(null, null, mockResponse);
+      };
+
+      mockery.registerMock('request', requestMock);
+      talk2Me = require(talk2MePath);
+
+      return talk2Me.getFirstQuestion(user).then(function(firstQuestion){
+        expect(firstQuestion).to.deep.equal({ 
+          responseId: 1964,
+          taskId: 1,
+          order: 10,
+          sessionTaskInstanceId: 1964,
+          sessionTaskId: 585,
+          instruction: 'After the beep, please say the definition for questing.',
+          time: 0 
+        });
+      });
+    });
+  });
+
   describe('cacheUsersSession', function() {
     it('should store session', function() {
       var talk2Me = require(talk2MePath);
