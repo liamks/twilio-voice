@@ -34,6 +34,7 @@ describe('Talk2Me', function() {
         .then(getSessionFromRedis)
         .then(function(obj) {
           expect(obj).to.deep.equal({
+            callSid: 'a2b7',
             questions: [{}],
             questionIndex: 0
           });
@@ -191,6 +192,35 @@ describe('Talk2Me', function() {
                           question.task_instruction,
                           question.values);
       expect(instruction.text).to.equal('How are you feeling today on a scale from 1 (very sad) to 10 (very happy)?');
+    });
+  });
+
+  describe('transformInstructions', function() {
+    var talk2Me;
+
+    beforeEach(function() {
+      talk2Me = require(talk2MePath);
+    });
+
+    it('should transform all of the instructions', function() {
+      var user = {
+        questions: mockQuestions
+      };
+
+      return talk2Me.transformInstructions(user).then(function(u) {
+        var q0 = u.questions[0];
+        var q12 = u.questions[12];
+        var q17 = u.questions[17];
+
+        expect(q0.instruction).to.equal('After the beep, please say the definition for questing.');
+        expect(q0.sessionTaskInstanceId).to.equal(1964);
+
+        expect(q12.instruction).to.equal('You will hear a sentence, followed by a question with two possible answers. After you hear those answers, please select the answer number by pressing one or two. Starting sentence. Emma\'s mother had died long ago, and her place had been taken by an excellent woman as governess. Whose place had been taken?. Here are your options : Option 1: Emma\'s mother. Option 2: Emma.');
+        expect(q12.sessionTaskInstanceId).to.equal(1976);
+
+        expect(q17.instruction).to.equal('After the beep, please say as many different items of type ENGLISH WORDS STARTING WITH "t" that come to mind randomly.');
+        expect(q17.sessionTaskInstanceId).to.equal(1981);
+      });
     });
   });
 });
