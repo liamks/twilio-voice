@@ -46,6 +46,15 @@ var questions = [
 var connectedUsers = {};
 var completedCalls = [];
 
+/*
+
+Check if CallSid exists, if not it's a new session,
+fetch first question.
+
+Create survey module (a layer of abstraction above
+talk-2-me)
+*/
+
 twilioRouter.post('/', function(req, res) {
   var user = connectedUsers[req.body.CallSid];
   var resp = new twilio.TwimlResponse();

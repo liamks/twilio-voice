@@ -35,7 +35,92 @@ function deleteUser(callSid) {
   });
 }
 
+function cacheUser(callSid, questions, index) {
+  return new Promise(function(resolve, reject) {
+    redis.HMSET(callSid, {
+      questions: questions,
+      questionIndex: index
+    }, function(err) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(callSid);
+    });
+  });
+};
+
 describe('Talk2Me', function() {
+  var callSid = 444;
+
+  beforeEach(function() {
+    talk2Me = require(talk2MePath);
+  });
+
+  afterEach(function(done) {
+    deleteUser(callSid).then(function() {
+      done();
+    });
+  });
+
+  describe('hasSessionStarted', function() {
+    it('should return true if session has started', function() {
+      return cacheUser(callSid, [], 0)
+        .then(talk2Me.hasSessionStarted)
+        .then(function(started) {
+          expect(started).to.be.true;
+        });
+    });
+
+    it('should return false if session has not stated', function() {
+      return talk2Me.hasSessionStarted(callSid).then(function(started) {
+        expect(started).to.be.false;
+      });
+    });
+  });
+
+  describe('getNextAuthQuestion', function() {
+    var callSid = 444;
+    var talk2Me;
+
+    beforeEach(function() {
+      talk2Me = require(talk2MePath);
+    });
+
+    afterEach(function(done) {
+      deleteUser(callSid + '-auth').then(function() {
+        done();
+      });
+    });
+
+    it('should return the first auth question', function() {
+      return talk2Me.getNextAuthQuestion(callSid).then(function(q) {
+        expect(q).to.deep.equal(talk2Me.AUTHENTICATION_QUESTIONS[0]);
+      });
+    });
+
+    it('should return the 2nd auth question', function() {
+      return talk2Me.getNextAuthQuestion(callSid).then(function() {
+        return talk2Me.getNextAuthQuestion(callSid).then(function(q) {
+          expect(q).to.deep.equal(talk2Me.AUTHENTICATION_QUESTIONS[1]);
+        });
+      });
+    });
+
+    it('should return null, if auth complete', function() {
+      var promises = [];
+      var numAuthQuestions = talk2Me.AUTHENTICATION_QUESTIONS.length;
+      for (var i = 0; i < numAuthQuestions + 1; i++) {
+        promises.push(talk2Me.getNextAuthQuestion(callSid));
+      };
+
+
+      return Promise.all(promises).then(function(results) {
+        expect(results[numAuthQuestions]).to.be.null;
+      });
+    });
+  });
+
   describe('fetchQuestions', function() {
     var requestMock = function r() {};
     var talk2Me;
@@ -168,21 +253,6 @@ describe('Talk2Me', function() {
   describe('getNextQuestionForSession', function() {
     var questions = [{id: 1}, {id: 2}, {id: 3}];
     var callSid = 'a2b7';
-
-    function cacheUser(callSid, questions, index) {
-      return new Promise(function(resolve, reject) {
-        redis.HMSET(callSid, {
-          questions: questions,
-          questionIndex: index
-        }, function(err) {
-          if (err) {
-            return reject(err);
-          }
-
-          resolve(callSid);
-        });
-      });
-    };
 
     afterEach(function(done) {
       deleteUser(callSid).then(function() {

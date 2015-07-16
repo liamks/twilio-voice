@@ -9,6 +9,68 @@ function Talk2Me() {
   return Talk2Me;
 };
 
+Talk2Me.hasSessionStarted = function hasSessionStarted(sid) {
+  return new Promise(function(resolve, reject) {
+    Talk2Me.redis.EXISTS(sid, function(err, exists) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(exists === 1);
+    });
+  });
+};
+
+Talk2Me.AUTHENTICATION_QUESTIONS = [
+  {
+    text: 'After the beep please enter your passcode',
+    numDigits: 4,
+    key: 'passcode'
+  },
+  {
+    text: 'After the beep please enter the 4 digits of your birth year',
+    numDigits: 4,
+    key: 'birthYear'
+  },
+  {
+    text: 'After the beep please enter the 2 digits of your birth month',
+    numDigits: 2,
+    key: 'birthMonth'
+  },
+  {
+    text: 'After the beep please enter the 2 digits of your birth day',
+    numDigits: 2,
+    key: 'birthDay'
+  }
+];
+
+Talk2Me.getNextAuthQuestion = function getNextAuthQuestion(sid) {
+  return new Promise(function(resolve, reject) {
+    var authKey = sid + '-auth';
+    var multi = Talk2Me.redis.multi();
+
+    multi.HGET(authKey, 'index');
+    multi.HINCRBY(authKey, 'index', 1);
+
+    multi.exec(function(err, results) {
+      if (err) {
+        return reject(err);
+      }
+
+      var index = results[0] == null ? 0 : parseInt(results[0], 10);
+
+      if (index === Talk2Me.AUTHENTICATION_QUESTIONS.length) {
+        return resolve(null);
+      }
+
+      resolve(Talk2Me.AUTHENTICATION_QUESTIONS[index]);
+    });
+  });
+};
+
+Talk2Me.getAuthAnswers = function getAuthAnswers(sid) {
+
+};
 /*
   Get first question:
   1. fetches all remaining questinos for session
