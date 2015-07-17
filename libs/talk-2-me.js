@@ -21,6 +21,8 @@ Talk2Me.hasSessionStarted = function hasSessionStarted(sid) {
   });
 };
 
+Talk2Me.EXPIRE_KEY_TIME = 60 * 60; // 1 hour
+
 Talk2Me.done = {
   done: true,
   instruction: 'You have completed the suvey, thank you and goodbye.'
@@ -64,6 +66,7 @@ Talk2Me.getNextAuthQuestion = function getNextAuthQuestion(sid) {
 
     multi.HGET(authKey, 'index');
     multi.HINCRBY(authKey, 'index', 1);
+    multi.EXPIRE(authKey, Talk2Me.EXPIRE_KEY_TIME);
 
     multi.exec(function(err, results) {
       if (err) {
@@ -295,6 +298,7 @@ Talk2Me.getNextQuestionForSession = function getNextQuestionForSession(callSid) 
 
     multi.HINCRBY(callSid, 'questionIndex', 1);
     multi.HGETALL(callSid);
+    multi.EXPIRE(callSid, Talk2Me.EXPIRE_KEY_TIME);
 
     multi.exec(function(err, results) {
       if (err) {
