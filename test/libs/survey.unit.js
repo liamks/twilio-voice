@@ -63,6 +63,7 @@ describe('Survey', function() {
 
     it('should return first auth question and url for speech', function() {
       return survey.getNextQuestion(callSid).then(function(obj) {
+        console.log(obj);
         expect(obj).to.deep.equal({
           sid: 777,
           sessionStarted: false,
@@ -101,10 +102,10 @@ describe('Survey', function() {
       });
     });
 
-    it('should return second auth question and url for speech', function(){
+    it('should return second auth question and url for speech', function() {
       return survey.getNextQuestion(callSid).then(function() {
         return survey.getNextQuestion(callSid).then(function(obj) {
-          expect(obj).to.deep.equal({ 
+          expect(obj).to.deep.equal({
             sid: 777,
             sessionStarted: false,
             questionType: 'auth',
@@ -114,15 +115,57 @@ describe('Survey', function() {
                numDigits: 4,
                key: 'birthYear',
                url: 'https://s3.amazonaws.com/twilio-ad-telephony/b6ccf36c2b38b4f88f4019da33484ef97df3fe37.wav' },
-            authComplete: false 
+            authComplete: false
           });
         });
       });
     }); 
   });
 
-  describe('has not started, but just finished auth', function() {
+  describe.only('has not started, but just finished auth', function() {
+    var callSid = 777;
+    var survey;
+    var requestMock = function(_, cb) {
+      cb(null, null, JSON.stringify(mockResponse));
+    };
 
+    // NEED TO DELETE SESSION after test runs
+    // Need to delete session after last question as well
+    // need to delete auth after questions have been received
+
+    beforeEach(function() {
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false,
+        useCleanCache: true
+      });
+
+      mockery.registerMock('aws-sdk', AWS);
+      mockery.registerMock('request', requestMock);
+      survey = require(surveyPath);
+    });
+
+    afterEach(function(done) {
+      mockery.disable();
+      deleteUser(callSid + '-auth').then(function() {
+        done();
+      });
+    });
+
+    it('should return first question of survey', function() {
+      var promises = [
+        survey.getNextQuestion(callSid),
+        survey.getNextQuestion(callSid),
+        survey.getNextQuestion(callSid),
+        survey.getNextQuestion(callSid)
+      ];
+
+      return Promise.all(promises).then(function(results) {
+        survey.getNextQuestion(callSid).then(function(obj) {
+          console.log(obj);
+        });
+      });
+    });
   });
 
   describe('has started survey', function() {
