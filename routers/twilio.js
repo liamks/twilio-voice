@@ -2,125 +2,56 @@ var express = require('express');
 var twilio = require('twilio');
 var twilioRouter = express.Router();
 
-var textToSpeech = require('../libs/text-to-speech');
+var Survey = require('../libs/survey.js');
 
 // https://www.twilio.com/docs/howto/walkthrough/automated-survey/node/express#3
 
-var questions = [
-  {
-    id: 0,
-    kind: 'keys',
-    say: 'Please enter your 4 digit code',
-    options: {
-      numDigits: 4,
-      timeout: 60
-    }
-  },
-  {
-    id: 1,
-    kind: 'voice',
-    say: 'Please say your name, then press the pound key',
-    options: {
-      maxLength: 60
-    }
-  },
-  {
-    id: 2,
-    kind: 'voice',
-    say: 'Please say today\'s date, then press the pound key',
-    options: {
-      maxLength: 30
-    }
-  },
-  {
-    id: 3,
-    kind: 'keys',
-    say: 'What does 4 plus 3 equal?',
-    options: {
-      timeout: 60,
-      numDigits: 1
-    }
-  }
-];
+var DTMF_TIMEOUT = 60; // 1 minute
+var RECORDING_TIMEOUT = 60 * 5; // 5 minutes
 
-var connectedUsers = {};
-var completedCalls = [];
-
-/*
-
-Check if CallSid exists, if not it's a new session,
-fetch first question.
-
-Create survey module (a layer of abstraction above
-talk-2-me)
-*/
-
-twilioRouter.post('/', function(req, res) {
-  var user = connectedUsers[req.body.CallSid];
+twilioRouter.post('/:type/:index', function(req, res) {
+  var callSid = req.body.CallSid;
+  var questionType = req.params.type;
+  var index = req.params.index;
   var resp = new twilio.TwimlResponse();
   var input = req.body.RecordingUrl || req.body.Digits;
 
-  console.log(input);
+  Survey.saveAnswer({
+    CallSid: callSid,
+    index: index,
+    answer: input
+  }).then(function() {
+    Survey.getNextQuestion(callSid).then(function(question) {
+      resp.play(question.url);
 
-  if (!user) {
-    connectedUsers[req.body.CallSid] = req.body;
-    user = connectedUsers[req.body.CallSid];
-    user.step = 0;
-  }
+      if (question.done) {
+        // user is done questionnaire
+        resp.hangout();
+      } else if (question.numDigits) {
+        // user must enter digits
+        resp.gather({
+          numDigits: question.numDigits,
+          timeout: DTMF_TIMEOUT
+        });
+      } else {
+        // user must answer with their voice
+        resp.record({
+          finishOnKey: '#',
+          maxLength: RECORDING_TIMEOUT
+        });
+      }
 
-  if (user.step >= 4) {
-    resp.say({voice: 'woman'}, 'Thank you, goodbye.').hangup();
-
-    res.set('Content-Type', 'text/xml');
-    return res.send(resp.toString());
-  }
-
-  var question = questions[user.step];
-
-  user.step += 1;
-
-  textToSpeech.create(question.say).then(function(url) {
-
-    resp.play(url);
-
-    // add action to options?
-    if (question.kind === 'voice') {
-      question.options.finishOnKey = '#';
-      resp.record(question.options);
-    } else {
-      resp.gather(question.options);
-    }
-
-    res.set('Content-Type', 'text/xml');
-
-    res.send(resp.toString());
+      res.set('Content-Type', 'text/xml');
+      res.send(resp.toString());
+    });
+  }, function() {
+    // error need to handle
   });
 });
 
-// twilioRouter.post('/questionnaire', function(req, res){
-//   var user = connectedUsers[req.body.CallSid];
-//   console.log(new Date());
-//   console.log(req.body);
-//   var resp = new twilio.TwimlResponse();
-
-//   resp.say({voice : 'woman'}, 'Thank you, goodbye.').hangup();
-
-//   res.set('Content-Type', 'text/xml');
-//   res.send(resp.toString());
-// });
-
-// twilioRouter.post('/recording', function(req, res){
-//   console.log(req.body.CallSid);
-//   console.log(req.body.RecordingUrl);
-//   res.send('');
-// });
-
 twilioRouter.post('/completed', function(req, res) {
-  var user = connectedUsers[req.body.CallSid];
-  completedCalls.push(user);
-  delete connectedUsers[req.body.CallSid]
-  console.log('Call completed');
-  res.send('');
+  console.log('Call completed sid: ', req.body.CallSid);
+  res.send();
 });
 
 module.exports = twilioRouter;
