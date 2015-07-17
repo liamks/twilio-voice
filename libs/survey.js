@@ -1,5 +1,6 @@
 var Talk2Me = require('./talk-2-me.js');
 var TextToSpeech = require('./text-to-speech.js');
+var redis = require('redis');
 /*
 getNextQuestion(sid)
   1. check if sid exists
@@ -35,9 +36,9 @@ Survey._getAuthQuestion = function _getAuthQuestion(obj) {
 
     return Talk2Me.getNextAuthQuestion(obj.sid).then(function(authQuestion) {
       obj.questionType = 'auth';
-      obj.question = question;
+      obj.question = authQuestion;
       obj.authComplete = authQuestion === null;
-      return obj;
+      return resolve(obj);
     });
   });
 };
@@ -52,6 +53,7 @@ Survey._isAuthComplete = function _isAuthComplete(obj) {
       return Talk2Me.getAuthAnswers(obj.sid).then(function(authAnswers) {
         obj.authAnswers = authAnswers;
         obj.authAnswers.CallSid = obj.sid;
+        return resolve(obj);
       });
     }
 
@@ -79,13 +81,13 @@ Survey._getQuestion = function _getQuestion(obj) {
           obj.question = Talk2Me.done;
         }
 
-        return obj;
+        return resolve(obj);
       });
     }else {
       return Talk2Me.getFirstQuestion(obj.authAnswers).then(function(question) {
         obj.questionType = 'survey';
         obj.question = question;
-        return obj;
+        return resolve(obj);
       });
     }
   });
@@ -108,7 +110,7 @@ Survey.getNextQuestion = function getNextQuestion(sid) {
                .then(Survey._textToSpeech);
 };
 
-Survey.saveAnswer = function(obj) {
+Survey.saveAnswer = function saveAnswer(obj) {
   //questionType = 'survey'||'auth'
   return new Promise(function(resolve, reject) {
     if (obj.questionType === 'auth') {
@@ -118,4 +120,6 @@ Survey.saveAnswer = function(obj) {
       resolve('need to implement saving survey answer');
     }
   });
-}
+};
+
+module.exports = Survey();

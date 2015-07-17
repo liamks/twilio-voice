@@ -52,6 +52,7 @@ function cacheUser(callSid, questions, index) {
 
 describe('Talk2Me', function() {
   var callSid = 444;
+  var talk2Me;
 
   beforeEach(function() {
     talk2Me = require(talk2MePath);
