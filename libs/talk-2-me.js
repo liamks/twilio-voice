@@ -21,32 +21,45 @@ Talk2Me.hasSessionStarted = function hasSessionStarted(sid) {
   });
 };
 
+Talk2Me.done = {
+  done: true,
+  instruction: 'You have completed the suvey, thank you and goodbye.'
+};
+
 Talk2Me.AUTHENTICATION_QUESTIONS = [
   {
-    text: 'After the beep please enter your passcode',
+    index: 0,
+    instruction: 'After the beep please enter your passcode',
     numDigits: 4,
     key: 'passcode'
   },
   {
-    text: 'After the beep please enter the 4 digits of your birth year',
+    index: 1,
+    instruction: 'After the beep please enter the 4 digits of your birth year',
     numDigits: 4,
     key: 'birthYear'
   },
   {
-    text: 'After the beep please enter the 2 digits of your birth month',
+    index: 2,
+    instruction: 'After the beep please enter the 2 digits of your birth month',
     numDigits: 2,
     key: 'birthMonth'
   },
   {
-    text: 'After the beep please enter the 2 digits of your birth day',
+    index: 3,
+    instruction: 'After the beep please enter the 2 digits of your birth day',
     numDigits: 2,
     key: 'birthDay'
   }
 ];
 
+Talk2Me.authKey = function authKey(sid) {
+  return sid + '-auth';
+}
+
 Talk2Me.getNextAuthQuestion = function getNextAuthQuestion(sid) {
   return new Promise(function(resolve, reject) {
-    var authKey = sid + '-auth';
+    var authKey = Talk2Me.authKey(sid);
     var multi = Talk2Me.redis.multi();
 
     multi.HGET(authKey, 'index');
@@ -68,8 +81,32 @@ Talk2Me.getNextAuthQuestion = function getNextAuthQuestion(sid) {
   });
 };
 
-Talk2Me.getAuthAnswers = function getAuthAnswers(sid) {
+Talk2Me.setAuthAnswer = function setAuthAnswer(sid, key, value) {
+  return new Promise(function(resolve, reject) {
+    var authKey = Talk2Me.authKey(sid);
 
+    Talk2Me.redis.HSET(authKey, key, value, function(err, response) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve();
+    });
+  });
+};
+
+Talk2Me.getAuthAnswers = function getAuthAnswers(sid) {
+  return new Promise(function(resolve, reject) {
+    var authKey = Talk2Me.authKey(sid);
+
+    Talk2Me.redis.HGETALL(authKey, function(err, auth) {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(auth);
+    });
+  });
 };
 /*
   Get first question:

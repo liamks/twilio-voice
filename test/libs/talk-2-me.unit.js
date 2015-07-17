@@ -114,9 +114,66 @@ describe('Talk2Me', function() {
         promises.push(talk2Me.getNextAuthQuestion(callSid));
       };
 
-
       return Promise.all(promises).then(function(results) {
         expect(results[numAuthQuestions]).to.be.null;
+      });
+    });
+  });
+
+  describe('setAuthAnswer', function() {
+    var callSid = 444;
+    var talk2Me;
+
+    beforeEach(function() {
+      talk2Me = require(talk2MePath);
+    });
+
+    afterEach(function(done) {
+      deleteUser(talk2Me.authKey(callSid)).then(function() {
+        done();
+      });
+    });
+
+    it('should set the auth key-value', function(done) {
+      return talk2Me.getNextAuthQuestion(callSid).then(function() {
+        talk2Me.setAuthAnswer(callSid, 'passcode', '0044').then(function() {
+          redis.HGETALL(talk2Me.authKey(callSid), function(err, response) {
+            expect(response).to.deep.equal({
+              index: '1',
+              passcode: '0044'
+            });
+
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  describe('getAuthAnswers', function(done) {
+    var callSid = 444;
+    var talk2Me;
+
+    beforeEach(function() {
+      talk2Me = require(talk2MePath);
+    });
+
+    afterEach(function(done) {
+      deleteUser(talk2Me.authKey(callSid)).then(function() {
+        done();
+      });
+    });
+
+    it('should return the user\'s full auth object', function() {
+      return talk2Me.getNextAuthQuestion(callSid).then(function() {
+        return talk2Me.setAuthAnswer(callSid, 'passcode', '0044').then(function() {
+          return talk2Me.getAuthAnswers(callSid).then(function(auth) {
+            expect(auth).to.deep.equal({
+              index: '1',
+              passcode: '0044'
+            });
+          });
+        });
       });
     });
   });
