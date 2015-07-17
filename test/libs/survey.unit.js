@@ -21,26 +21,27 @@ function deleteUser(callSid) {
   });
 }
 
+/** S3 MOCK **/
+var headObject = function(_, cb) {
+  cb();
+};
+
+function AWS() {};
+
+AWS.S3 = function S3() {};
+
+AWS.config = {
+  update: function() {
+
+  }
+};
+
+AWS.S3.prototype.headObject = headObject;
+
 describe('Survey', function() {
   describe('has not started and no auth', function() {
     var callSid = 777;
     var survey;
-
-    var headObject = function(_, cb) {
-      cb();
-    };
-
-    function AWS() {};
-
-    AWS.S3 = function S3() {};
-
-    AWS.config = {
-      update: function() {
-
-      }
-    };
-
-    AWS.S3.prototype.headObject = headObject;
 
     beforeEach(function() {
       mockery.enable({
@@ -79,7 +80,45 @@ describe('Survey', function() {
   });
 
   describe('has not started, but has started auth', function() {
+    var callSid = 777;
+    var survey;
 
+    beforeEach(function() {
+      mockery.enable({
+        warnOnReplace: false,
+        warnOnUnregistered: false,
+        useCleanCache: true
+      });
+
+      mockery.registerMock('aws-sdk', AWS);
+      survey = require(surveyPath);
+    });
+
+    afterEach(function(done) {
+      mockery.disable();
+      deleteUser(callSid + '-auth').then(function() {
+        done();
+      });
+    });
+
+    it('should return second auth question and url for speech', function(){
+      return survey.getNextQuestion(callSid).then(function() {
+        return survey.getNextQuestion(callSid).then(function(obj) {
+          expect(obj).to.deep.equal({ 
+            sid: 777,
+            sessionStarted: false,
+            questionType: 'auth',
+            question:
+             { index: 1,
+               instruction: 'After the beep please enter the 4 digits of your birth year',
+               numDigits: 4,
+               key: 'birthYear',
+               url: 'https://s3.amazonaws.com/twilio-ad-telephony/b6ccf36c2b38b4f88f4019da33484ef97df3fe37.wav' },
+            authComplete: false 
+          });
+        });
+      });
+    }); 
   });
 
   describe('has not started, but just finished auth', function() {
