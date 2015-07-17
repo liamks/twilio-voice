@@ -12,30 +12,34 @@ var RECORDING_TIMEOUT = 60 * 5; // 5 minutes
 twilioRouter.post('/:type/:index', function(req, res) {
   var callSid = req.body.CallSid;
   var questionType = req.params.type;
-  var index = req.params.index;
+  var index = parseInt(req.params.index, 10);
   var resp = new twilio.TwimlResponse();
   var input = req.body.RecordingUrl || req.body.Digits;
 
   Survey.saveAnswer({
     CallSid: callSid,
     index: index,
-    answer: input
+    answer: input,
+    questionType: questionType
   }).then(function() {
     Survey.getNextQuestion(callSid).then(function(question) {
+      var actionUrl = '/twilio/' + questionType + '/' + (question.index || 0);
       resp.play(question.url);
 
       if (question.done) {
         // user is done questionnaire
-        resp.hangout();
+        resp.hangup();
       } else if (question.numDigits) {
         // user must enter digits
         resp.gather({
+          action: actionUrl,
           numDigits: question.numDigits,
           timeout: DTMF_TIMEOUT
         });
       } else {
         // user must answer with their voice
         resp.record({
+          action: actionUrl,
           finishOnKey: '#',
           maxLength: RECORDING_TIMEOUT
         });

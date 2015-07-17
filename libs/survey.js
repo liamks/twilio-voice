@@ -113,6 +113,10 @@ Survey.getNextQuestion = function getNextQuestion(sid) {
 Survey.saveAnswer = function saveAnswer(obj) {
   //questionType = 'survey'||'auth'
   return new Promise(function(resolve, reject) {
+    if(!obj.answer){
+      return resolve(); // conversation has just started
+    }
+
     if (obj.questionType === 'auth') {
       return Talk2Me.setAuthAnswer(obj.CallSid, obj.index, obj.answer);
     } else if (obj.questionType === 'survey') {
