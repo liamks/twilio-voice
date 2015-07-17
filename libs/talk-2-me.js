@@ -70,7 +70,7 @@ Talk2Me.getNextAuthQuestion = function getNextAuthQuestion(sid) {
         return reject(err);
       }
 
-      var index = results[0] == null ? 0 : parseInt(results[0], 10);
+      var index = results[0] === null ? 0 : parseInt(results[0], 10);
 
       if (index === Talk2Me.AUTHENTICATION_QUESTIONS.length) {
         return resolve(null);
