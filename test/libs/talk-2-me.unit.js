@@ -180,6 +180,7 @@ describe('Talk2Me', function() {
 
   describe('fetchQuestions', function() {
     var requestMock = function r() {};
+
     var talk2Me;
 
     beforeEach(function() {

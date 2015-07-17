@@ -107,3 +107,15 @@ Survey.getNextQuestion = function getNextQuestion(sid) {
                .then(Survey._getQuestion)
                .then(Survey._textToSpeech);
 };
+
+Survey.saveAnswer = function(obj) {
+  //questionType = 'survey'||'auth'
+  return new Promise(function(resolve, reject) {
+    if (obj.questionType === 'auth') {
+      return Talk2Me.setAuthAnswer(obj.CallSid, obj.index, obj.answer);
+    } else {
+      // type === 'survey'
+      resolve('need to implement saving survey answer');
+    }
+  });
+}
