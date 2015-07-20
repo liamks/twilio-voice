@@ -71,7 +71,7 @@ describe('Survey', function() {
             index: 0,
             instruction: 'Please enter your 4 digit passcode',
             numDigits: 4,
-            key: 'passcode',
+            key: 'userPasscode',
             url: 'https://s3.amazonaws.com/twilio-ad-telephony/a3259840aeb51b4e426cb061c249644b9b99bc60.wav'
           },
           authComplete: false
@@ -113,7 +113,7 @@ describe('Survey', function() {
               index: 1,
               instruction: 'Please enter the 4 digits of your birth year',
               numDigits: 4,
-              key: 'birthYear',
+              key: 'userBirthyear',
               url: 'https://s3.amazonaws.com/twilio-ad-telephony/050505e8a7344ede49d155ed56184d473a5c436e.wav'
             },
             authComplete: false

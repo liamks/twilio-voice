@@ -33,25 +33,25 @@ Talk2Me.AUTHENTICATION_QUESTIONS = [
     index: 0,
     instruction: 'Please enter your 4 digit passcode',
     numDigits: 4,
-    key: 'passcode'
+    key: 'userPasscode'
   },
   {
     index: 1,
     instruction: 'Please enter the 4 digits of your birth year',
     numDigits: 4,
-    key: 'birthYear'
+    key: 'userBirthyear'
   },
   {
     index: 2,
     instruction: 'Please enter the 2 digits of your birth month',
     numDigits: 2,
-    key: 'birthMonth'
+    key: 'userBirthmonth'
   },
   {
     index: 3,
     instruction: 'Please enter the 2 digits of your birth day',
     numDigits: 2,
-    key: 'birthDay'
+    key: 'userBirthday'
   }
 ];
 
@@ -94,7 +94,7 @@ Talk2Me.setAuthAnswer = function setAuthAnswer(sid, index, value) {
     var key = Talk2Me.getAuthKeyFromIndex(index);
 
     // when we have real passcodes, fix this hack
-    if (key === 'passcode') {
+    if (key === 'userPasscode') {
       value = parseInt(value, 10);
     }
 

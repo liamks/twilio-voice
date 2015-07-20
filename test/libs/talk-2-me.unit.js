@@ -141,7 +141,7 @@ describe('Talk2Me', function() {
           redis.HGETALL(talk2Me.authKey(callSid), function(err, response) {
             expect(response).to.deep.equal({
               index: '1',
-              passcode: '44'
+              userPasscode: '44'
             });
 
             done();
@@ -171,7 +171,7 @@ describe('Talk2Me', function() {
           return talk2Me.getAuthAnswers(callSid).then(function(auth) {
             expect(auth).to.deep.equal({
               index: '1',
-              passcode: '44'
+              userPasscode: '44'
             });
           });
         });
