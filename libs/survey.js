@@ -40,7 +40,7 @@ Survey._getAuthQuestion = function _getAuthQuestion(obj) {
       obj.question = authQuestion;
       obj.authComplete = authQuestion === null;
       return resolve(obj);
-    });
+    }, reject);
   });
 };
 
@@ -55,7 +55,7 @@ Survey._isAuthComplete = function _isAuthComplete(obj) {
         obj.authAnswers = authAnswers;
         obj.authAnswers.CallSid = obj.sid;
         return resolve(obj);
-      });
+      }, reject);
     }
 
     return resolve(obj);
@@ -83,13 +83,13 @@ Survey._getQuestion = function _getQuestion(obj) {
         }
 
         return resolve(obj);
-      });
+      }, reject);
     }else {
       return Talk2Me.getFirstQuestion(obj.authAnswers).then(function(question) {
         obj.questionType = 'survey';
         obj.question = question;
         return resolve(obj);
-      });
+      }, reject);
     }
   });
 };
@@ -99,7 +99,7 @@ Survey._textToSpeech = function _textToSpeech(obj) {
     return TextToSpeech.create(obj.question.instruction).then(function(url) {
       obj.question.url = url;
       resolve(obj);
-    });
+    }, reject);
   });
 };
 

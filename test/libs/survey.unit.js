@@ -69,10 +69,10 @@ describe('Survey', function() {
           questionType: 'auth',
           question: {
             index: 0,
-            instruction: 'After the beep please enter your passcode',
+            instruction: 'Please enter your 4 digit passcode',
             numDigits: 4,
             key: 'passcode',
-            url: 'https://s3.amazonaws.com/twilio-ad-telephony/6923670f5b757a0b1c6dc71715a84df859605c59.wav'
+            url: 'https://s3.amazonaws.com/twilio-ad-telephony/a3259840aeb51b4e426cb061c249644b9b99bc60.wav'
           },
           authComplete: false
         });
@@ -111,10 +111,10 @@ describe('Survey', function() {
             questionType: 'auth',
             question: {
               index: 1,
-              instruction: 'After the beep please enter the 4 digits of your birth year',
+              instruction: 'Please enter the 4 digits of your birth year',
               numDigits: 4,
               key: 'birthYear',
-              url: 'https://s3.amazonaws.com/twilio-ad-telephony/b6ccf36c2b38b4f88f4019da33484ef97df3fe37.wav'
+              url: 'https://s3.amazonaws.com/twilio-ad-telephony/050505e8a7344ede49d155ed56184d473a5c436e.wav'
             },
             authComplete: false
           });

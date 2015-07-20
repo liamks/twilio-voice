@@ -137,7 +137,7 @@ describe('Talk2Me', function() {
 
     it('should set the auth key-value', function(done) {
       return talk2Me.getNextAuthQuestion(callSid).then(function() {
-        talk2Me.setAuthAnswer(callSid, 'passcode', '0044').then(function() {
+        talk2Me.setAuthAnswer(callSid, 0, '0044').then(function() {
           redis.HGETALL(talk2Me.authKey(callSid), function(err, response) {
             expect(response).to.deep.equal({
               index: '1',
@@ -167,7 +167,7 @@ describe('Talk2Me', function() {
 
     it('should return the user\'s full auth object', function() {
       return talk2Me.getNextAuthQuestion(callSid).then(function() {
-        return talk2Me.setAuthAnswer(callSid, 'passcode', '0044').then(function() {
+        return talk2Me.setAuthAnswer(callSid, 0, '0044').then(function() {
           return talk2Me.getAuthAnswers(callSid).then(function(auth) {
             expect(auth).to.deep.equal({
               index: '1',
