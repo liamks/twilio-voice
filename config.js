@@ -29,5 +29,10 @@ module.exports = {
     rootUrl : ' https://www.cs.toronto.edu/talk2me/',
     authName : 'system',
     authPass : '14a90af63c607ba3c1ff3906f9f5150b61eae1cc56654ef2595b7491c633619f156a8b08f1ae3798413e1bff17bf6a01f0cf1ae9417f8bfab2bce120e0fac5ba'
+  },
+  redis : {
+    host: 'pub-redis-19832.us-east-1-4.5.ec2.garantiadata.com',
+    port: 19832,
+    password: 'y7u_*9[o3$jst+'
   }
 };

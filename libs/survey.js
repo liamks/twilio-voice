@@ -1,6 +1,7 @@
 var Talk2Me = require('./talk-2-me.js');
 var TextToSpeech = require('./text-to-speech.js');
-var redis = require('redis');
+var redisFactory = require('./redisFactory');
+
 /*
 getNextQuestion(sid)
   1. check if sid exists
@@ -14,7 +15,7 @@ getNextQuestion(sid)
 */
 
 function Survey() {
-  Survey.redis = redis.createClient();
+  Survey.redis = redisFactory.getClient();
   return Survey;
 }
 

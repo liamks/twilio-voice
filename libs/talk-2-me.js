@@ -1,11 +1,11 @@
 var request = require('request');
-var redis = require('redis');
+var redisFactory = require('./redisFactory');
 var utils = require('./utils.js');
 var config = require('../config.js');
 var talk2MeConfig = config.talk2Me;
 
 function Talk2Me() {
-  Talk2Me.redis = redis.createClient();
+  Talk2Me.redis = redisFactory.getClient();
   return Talk2Me;
 };
 

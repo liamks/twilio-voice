@@ -27,7 +27,6 @@ app.use(express.static(__dirname + '/public'));
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 
-
 // ROUTES
 app.use('/twilio', require('./routers/twilio.js'));
 
