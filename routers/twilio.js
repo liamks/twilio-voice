@@ -22,18 +22,18 @@ twilioRouter.post('/:type/:index', function(req, res) {
     answer: input,
     questionType: questionType
   }).then(function() {
-    Survey.getNextQuestion(callSid).then(function(question) {
-      var actionUrl = '/twilio/' + questionType + '/' + (question.index || 0);
-      resp.play(question.url);
+    Survey.getNextQuestion(callSid).then(function(obj) {
+      var actionUrl = '/twilio/' + questionType + '/' + (obj.question.index || 0);
+      resp.play(obj.question.url);
 
-      if (question.done) {
+      if (obj.question.done) {
         // user is done questionnaire
         resp.hangup();
-      } else if (question.numDigits) {
+      } else if (obj.question.numDigits) {
         // user must enter digits
         resp.gather({
           action: actionUrl,
-          numDigits: question.numDigits,
+          numDigits: obj.question.numDigits,
           timeout: DTMF_TIMEOUT
         });
       } else {
