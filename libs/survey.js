@@ -119,7 +119,7 @@ Survey.saveAnswer = function saveAnswer(obj) {
     }
 
     if (obj.questionType === 'auth') {
-      return Talk2Me.setAuthAnswer(obj.CallSid, obj.index, obj.answer);
+      Talk2Me.setAuthAnswer(obj.CallSid, obj.index, obj.answer).then(resolve, reject);
     } else if (obj.questionType === 'survey') {
       resolve('need to implement saving survey answer');
     } else {
