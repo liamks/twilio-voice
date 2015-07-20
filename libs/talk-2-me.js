@@ -57,7 +57,11 @@ Talk2Me.AUTHENTICATION_QUESTIONS = [
 
 Talk2Me.authKey = function authKey(sid) {
   return sid + '-auth';
-}
+};
+
+Talk2Me.getAuthKeyFromIndex = function getAuthKeyFromIndex(index){
+  return Talk2Me.AUTHENTICATION_QUESTIONS[parseInt(index, 10)].key;
+};
 
 Talk2Me.getNextAuthQuestion = function getNextAuthQuestion(sid) {
   return new Promise(function(resolve, reject) {
@@ -84,9 +88,10 @@ Talk2Me.getNextAuthQuestion = function getNextAuthQuestion(sid) {
   });
 };
 
-Talk2Me.setAuthAnswer = function setAuthAnswer(sid, key, value) {
+Talk2Me.setAuthAnswer = function setAuthAnswer(sid, index, value) {
   return new Promise(function(resolve, reject) {
     var authKey = Talk2Me.authKey(sid);
+    var key = Talk2Me.getAuthKeyFromIndex(index);
 
     // when we have real passcodes, fix this hack
     if (key === 'passcode') {
