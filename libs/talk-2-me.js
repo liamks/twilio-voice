@@ -31,25 +31,25 @@ Talk2Me.done = {
 Talk2Me.AUTHENTICATION_QUESTIONS = [
   {
     index: 0,
-    instruction: 'After the beep please enter your passcode',
+    instruction: 'Please enter your 4 digit passcode',
     numDigits: 4,
     key: 'passcode'
   },
   {
     index: 1,
-    instruction: 'After the beep please enter the 4 digits of your birth year',
+    instruction: 'Please enter the 4 digits of your birth year',
     numDigits: 4,
     key: 'birthYear'
   },
   {
     index: 2,
-    instruction: 'After the beep please enter the 2 digits of your birth month',
+    instruction: 'Please enter the 2 digits of your birth month',
     numDigits: 2,
     key: 'birthMonth'
   },
   {
     index: 3,
-    instruction: 'After the beep please enter the 2 digits of your birth day',
+    instruction: 'Please enter the 2 digits of your birth day',
     numDigits: 2,
     key: 'birthDay'
   }

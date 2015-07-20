@@ -48,8 +48,10 @@ twilioRouter.post('/:type/:index', function(req, res) {
       res.set('Content-Type', 'text/xml');
       res.send(resp.toString());
     });
-  }, function() {
-    // error need to handle
+  }, function(err) {
+    console.log(err);
+    resp.say({voice: 'woman'}, 'Sorry, our system is experiencing difficulties').hangup();
+    res.send(resp.toString());
   });
 });
 
