@@ -88,6 +88,11 @@ Talk2Me.setAuthAnswer = function setAuthAnswer(sid, key, value) {
   return new Promise(function(resolve, reject) {
     var authKey = Talk2Me.authKey(sid);
 
+    // when we have real passcodes, fix this hack
+    if (key === 'passcode') {
+      value = parseInt(value, 10);
+    }
+
     Talk2Me.redis.HSET(authKey, key, value, function(err, response) {
       if (err) {
         return reject(err);
